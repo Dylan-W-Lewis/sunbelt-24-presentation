@@ -1,0 +1,257 @@
+---
+title: "Peer effects on health-related behaviours of adolescents in Scotland: a cross-sectional study"
+subtitle: "Sunbelt Conference, Edinburgh, 2024"
+author: "Dylan Lewis, Srebrenka Letina, Babak Mahdavi Ardestani, Emily Long, Mark McCann"
+institute: "Social & Public Health Sciences Unit, University of Glasgow"
+format: 
+  revealjs:
+    embed-resources: true
+    logo: logos/MRC_CSO_SPHSU_Glasgow_RGB.png
+engine: knitr
+---
+
+## Motivation
+
+```{css, echo=FALSE}
+.title {
+  font-size: 70px !important;
+  color: rgb(0, 56, 101) !important;
+}
+.slide-logo {
+  max-height: 3rem !important;
+}
+.custom-box {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 20px !important;
+}
+.custom-table td {
+  padding: 1em .5em 1em .5em !important;
+  border-bottom: 0px none !important;
+}
+h2 {
+  color: rgb(0, 56, 101) !important;
+}
+```
+
+-   Changing health behaviours amongst young people
+
+    -   Declining alcohol and tobacco consumption
+
+    -   Growing prevalence of poor mental health
+
+Have patterns of peer level clustering of health behaviours changed?
+
+Do the same relationships between network structure and health behaviours observed in older datasets occur in a contemporary Scottish adolescent population?
+
+## Sample {.smaller}
+
+| Net4Health                                          | Peers and Levels of Stress (PaLS) |
+|------------------------------------|------------------------------------|
+| 2022/23                                             | 2005/6                            |
+| Cross-sectional (wave 1 of longitudinal study)      | Cross-sectional                   |
+| 4 secondary schools + pilot school                  | 22 schools                        |
+| Secondary 2 (age 12-13) and Secondary 4 (age 14-15) | Secondary 4 only (age 14-15)      |
+| Online survey                                       | Pen & paper                       |
+
+: {.custom-table}
+
+## Measures {.smaller}
+
+::: columns
+::: {.column width="33.3%"}
+-   *Dependent variables:*
+
+    -   General mental health (GHQ-12 caseness)
+
+    -   Self-esteem (Rosenberg scale, binarised)
+
+    -   Smoking (monthly or more often)
+
+    -   Drinking (weekly or more often)
+
+    -   Drugs (used this year)
+:::
+
+::: {.column width="33.3%"}
+-   *Individual attributes:*
+
+    -   Gender
+
+    -   Family affluence (FAS)
+
+    -   Parental care, parental control (Bonding Instrument BF)
+:::
+
+::: {.column width="33.3%"}
+-   *Network ties*
+
+    -   Net4Health:
+
+        -   Asked to nominate up to **ten** friends.
+
+        -   Two year-group networks per school = 10 networks.
+
+    -   PaLS:
+
+        -   Asked to nominate up to **six** friends.
+
+        -   22 networks.
+:::
+:::
+
+## Prevalence
+
+```{r Prev, echo=FALSE}
+prevPlot <- readRDS("sunbelt_prev.RDS")
+prevPlot
+```
+
+
+
+## Example networks - Smoking
+
+::: columns
+::: {.column}
+![PaLS](net9smk.png)
+:::
+
+::: {.column}
+![Net4Health](net30smk.png)
+:::
+
+:::
+
+## Example networks - Drinking
+
+::: columns
+::: {.column}
+![PaLS](net9dr.png)
+:::
+
+::: {.column}
+![Net4Health](net30dr.png)
+:::
+
+:::
+
+
+## Example networks - Mental health
+
+::: columns
+::: {.column}
+![PaLS](net9mh.png)
+:::
+
+::: {.column}
+![Net4Health](net30mh.png)
+:::
+
+:::
+
+
+## ALAAMs {.smaller}
+
+We used *autologistic actor-attribute models*^[Daraganova & Robins, 2013] (ALAAMs) to examine how the behaviour (nodal attribute) of an individual is related to their **position in a social network** and by the **behaviours/attributes of other actors** in that network.
+
+-   ALAAMs are an extension of ERGMs.
+
+-   Can be interpreted similarly to a logistic regression, but taking into account network dependencies.
+
+-   Sometimes called *social influence models*.^[Robins, Pattison, & Elliott, 2001]
+
+    -   While we can include 'contagion' parameters, we can't distinguish between influence and selections!
+
+
+## Plan of analysis {.smaller}
+
+Missing data
+
+::: custom-box
+-   Attributes imputed with *mice* R package
+-   Missing DVs handled by ALAAM\
+:::
+
+ALAAMs
+
+::: custom-box
+-   Run in R using *bayesALAAM* ^[Koskinen & Daraganova, 2020] 
+-   2 models for each network
+    -   A: just structural parameters
+    -   B: structural parameters + attributes\
+:::
+
+Meta-analysis
+
+::: custom-box
+-   Model estimates combined in mixed-effects meta-regression using *metafor* R package
+-   Study effect (Net4Health or PaLS) included as a moderator
+:::
+
+## Model specification
+
+![](model_diagram.png)
+
+## Initial results
+
+*A couple of caveats...*
+
+-   These are the results from a *single imputation*
+
+-   Only structural parameters included so far ('model A')
+
+-   Work in progress!
+
+## Results - Drinking
+
+```{r drinking, echo=FALSE}
+plots <- readRDS("sunbelt_plots.RDS")
+
+plots$drinking_outcome
+```
+
+## Results - Smoking
+
+```{r smoking, echo=FALSE}
+plots$smoking_outcome
+```
+
+<!-- ## Results - Drug use -->
+
+<!-- ```{r drugs, echo=FALSE} -->
+<!-- plots$drugs -->
+<!-- ``` -->
+
+## Results - Poor mental health (GHQ)
+
+```{r ghq, echo=FALSE}
+plots$GHQ
+```
+
+<!-- ## Results - Low self esteem -->
+
+<!-- ```{r se, echo=FALSE} -->
+<!-- plots$SE -->
+<!-- ``` -->
+
+## Conclusions {.incremental}
+
+-   Some evidence for peer-level clustering of health-related behaviours
+      
+    -   Smoking behaviours in both time-periods, drinking only in PaLS (2005/6)
+    
+-   Poor mental health was not strongly related to network structure at either time-period
+
+-   Despite changing prevalence and societal contexts of health-related behaviours, network dependencies do not differ greatly between the time-periods
+
+## Thank you! {.smaller}
+
+Questions:
+
+d.lewis.1@research.gla.ac.uk
+
+srebrenka.letina@glasgow.ac.uk
+
+
